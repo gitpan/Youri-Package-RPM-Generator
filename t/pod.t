@@ -1,12 +1,14 @@
 #!/usr/bin/perl
-# $Id$
+# $Id: pod.t 2315 2011-01-22 12:56:34Z guillomovitch $
 
+use strict;
+use warnings;
 use Test::More;
-eval {
-    require Test::Pod;
-    import Test::Pod;
-};
-plan(skip_all => 'Test::Pod not installed; skipping') if $@;
-plan(skip_all => 'Minimal Test::Pod version 1.14 required; skipping')
-    unless $Test::Pod::VERSION >= 1.14;
+
+plan(skip_all => 'Author test, set $ENV{TEST_AUTHOR} to a true value to run')
+    unless $ENV{TEST_AUTHOR};
+
+eval "use Test::Pod 1.14";
+plan(skip_all => 'Test::Pod >= 1.14 required, skipping') if $@;
+
 all_pod_files_ok();

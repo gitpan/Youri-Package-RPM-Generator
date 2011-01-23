@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $Id$
+# $Id: kwalitee.t 1581 2007-03-22 13:41:57Z guillomovitch $
 
 use Test::More;
 eval {

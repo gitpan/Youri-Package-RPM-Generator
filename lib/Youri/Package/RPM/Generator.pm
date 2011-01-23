@@ -1,4 +1,4 @@
-# $Id: /mirror/youri/soft/Package-RPM-Generator/trunk/lib/Youri/Package/RPM/Generator.pm 2230 2007-03-05T21:32:43.256766Z guillomovitch  $
+# $Id: Generator.pm 2293 2011-01-22 12:05:23Z guillomovitch $
 package Youri::Package::RPM::Generator;
 
 =head1 NAME
@@ -17,7 +17,7 @@ use warnings;
 use Carp;
 use Text::Template;
 use File::Temp qw/tempdir/;
-use version; our $VERSION = qv('0.1.0');
+use version; our $VERSION = qv('0.1.1');
 
 my %defaults = (
     name    => 'test',
@@ -50,6 +50,7 @@ rm -rf %{buildroot}
 %build
 
 %install
+install -d -m 755 %{buildroot}
 
 %clean
 rm -rf %{buildroot}
