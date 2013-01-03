@@ -6,7 +6,9 @@ WriteMakefile(
     VERSION_FROM => 'lib/Youri/Package/RPM/Generator.pm',
     AUTHOR       => 'Youri project <youri@zarb.org>',
     PREREQ_PM    => {
+        'File::Temp'      => 0,
         'URPM'            => 0,
+        'File::Which'     => 0,
         'Test::Exception' => 0,
         'Text::Template'  => 0,
         'version'         => 0

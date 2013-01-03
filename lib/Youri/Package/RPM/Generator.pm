@@ -1,4 +1,4 @@
-# $Id: Generator.pm 2293 2011-01-22 12:05:23Z guillomovitch $
+# $Id: Generator.pm 2379 2013-01-03 20:14:49Z guillomovitch $
 package Youri::Package::RPM::Generator;
 
 =head1 NAME
@@ -14,10 +14,12 @@ for testing purposes.
 
 use strict;
 use warnings;
+use version; our $VERSION = qv('0.1.2');
+
 use Carp;
-use Text::Template;
+use English qw/-no_match_vars/;
 use File::Temp qw/tempdir/;
-use version; our $VERSION = qv('0.1.1');
+use Text::Template;
 
 my %defaults = (
     name    => 'test',
@@ -30,18 +32,18 @@ my %defaults = (
 );
 
 my $template = Text::Template->new(TYPE => 'STRING', SOURCE => <<'EOF');
-Name:		{$name}
-Version:	{$version}
-Release:	{$release}
-Summary:	{$summary}
-License:	{$license}
-Group:		{$group}
-{ $url     ? "Url:   $url" : '' }
-{ $buildarch     ? "BuildArch:   $buildarch" : '' }
+Name:		[% $name %]
+Version:	[% $version  %]
+Release:	[% $release %]
+Summary:	[% $summary %]
+License:	[% $license %]
+Group:		[% $group %]
+[% $url     ? "Url:   $url" : '' %]
+[% $buildarch     ? "BuildArch:   $buildarch" : '' %]
 BuildRoot:	%{_tmppath}/%{name}-%{version}
 
 %description
-{$description}
+[% $description %]
 
 %prep
 rm -rf %{buildroot}
@@ -59,7 +61,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 
 %changelog
-{$changelog}
+[% $changelog %]
 EOF
 
 =head1 CLASS METHODS
@@ -114,8 +116,9 @@ sub new {
     open my $fh, '>', $spec  or die "Can't open $spec: $!";
 
     $template->fill_in(
-        HASH   => $options{tags},
-        OUTPUT => $fh
+        DELIMITERS => [ '[% ', ' %]' ],
+        HASH       => $options{tags},
+        OUTPUT     => $fh
     );
     close $fh;
 
@@ -146,7 +149,7 @@ sub get_source {
         $self->{_tags}->{name}
     );
     my $status = system $command;
-    die "Can't execute $command: $!" if $status;
+    die "Can't execute $command: $ERRNO" if $status;
 
     my $dir = $self->{_topdir} . '/SRPMS';
     return <$dir/*.rpm>;
@@ -180,7 +183,7 @@ sub get_binaries {
         $self->{_tags}->{name}
     );
     my $status = system $command;
-    die "Can't execute $command: $!" if $status;
+    die "Can't execute $command: $ERRNO" if $status;
 
     return <$dir/*.rpm>;
 }
