@@ -1,4 +1,4 @@
-# $Id: Generator.pm 2379 2013-01-03 20:14:49Z guillomovitch $
+# $Id: Generator.pm 2386 2013-01-03 20:41:58Z guillomovitch $
 package Youri::Package::RPM::Generator;
 
 =head1 NAME
@@ -14,7 +14,7 @@ for testing purposes.
 
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.1.2');
+use version; our $VERSION = qv('0.1.3');
 
 use Carp;
 use English qw/-no_match_vars/;

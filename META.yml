@@ -24,4 +24,4 @@ requires:
   Text::Template: 0
   URPM: 0
   version: 0
-version: v0.1.2
+version: v0.1.3
